@@ -12,6 +12,8 @@ const ratingsRoutes = require('./routes/ratings');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+console.log(`📌 PORT configuré: ${PORT}`);
+
 // Middleware de sécurité
 app.use(helmet());
 
