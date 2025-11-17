@@ -106,11 +106,15 @@ app.use('*', (req, res) => {
 // Initialisation de la base de données
 const initializeDatabase = async () => {
   try {
-    const { initDatabase } = require('./scripts/initDatabase');
-    await initDatabase();
-    console.log('✅ Base de données initialisée');
+    const initModule = require('./scripts/initDatabase');
+    if (typeof initModule.initDatabase === 'function') {
+      await initModule.initDatabase();
+      console.log('✅ Base de données initialisée');
+    } else {
+      console.log('ℹ️  Base de données déjà initialisée');
+    }
   } catch (error) {
-    console.error('❌ Erreur initialisation DB:', error);
+    console.error('⚠️  Erreur initialisation DB (non bloquant):', error.message);
   }
 };
 
