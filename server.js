@@ -103,16 +103,14 @@ app.use('*', (req, res) => {
   });
 });
 
-// Initialisation de la base de données pour Vercel
+// Initialisation de la base de données
 const initializeDatabase = async () => {
-  if (process.env.NODE_ENV === 'production') {
-    try {
-      const { initDatabase } = require('./scripts/vercel-init');
-      await initDatabase();
-      console.log('✅ Base de données Vercel initialisée');
-    } catch (error) {
-      console.error('❌ Erreur initialisation DB Vercel:', error);
-    }
+  try {
+    const { initDatabase } = require('./scripts/initDatabase');
+    await initDatabase();
+    console.log('✅ Base de données initialisée');
+  } catch (error) {
+    console.error('❌ Erreur initialisation DB:', error);
   }
 };
 
@@ -121,9 +119,9 @@ const startServer = async () => {
   // Initialiser la base de données en production
   await initializeDatabase();
   
-  app.listen(PORT, () => {
+  app.listen(PORT, '0.0.0.0', () => {
     console.log('🚀 NICE-Downs Backend démarré !');
-    console.log(`📡 Serveur: http://localhost:${PORT}`);
+    console.log(`📡 Serveur: http://0.0.0.0:${PORT}`);
     console.log(`🌍 Environnement: ${process.env.NODE_ENV || 'development'}`);
     console.log(`🇧🇫 Développé par NICE-DEV au Burkina Faso`);
     console.log('');
